@@ -1,0 +1,79 @@
+#ifndef CURWEBSERVERX86
+#define CURWEBSERVERX86
+
+
+
+#include <map>
+#include <functional>
+
+typedef std::function<void(void)> THandlerFunction;
+//typedef const std::function<void (int)> handler_t;
+
+class httpconnHandler;
+class httpserverHandler;
+
+#define HTTP_GET 1
+#define HTTP_POST 2
+#define CONTENT_LENGTH_UNKNOWN 1
+
+class CurWebServerx86 {
+	bool started=false;
+	int port;
+	httpserverHandler *ppserver;
+
+	std::string programpath="";
+
+	std::map<std::string, THandlerFunction> callbacks;
+
+public:
+	std::string lasturi;
+	httpconnHandler *lastreq;
+
+	CurWebServerx86(unsigned int port0=80);
+
+	void collectHeaders(const char **headers,size_t length){} //all headers are always collected
+
+	void setMdnsName(std::string str){}	// not implemented
+	template<typename T> void begin(T t){this->begin();} // MDNS not implemented
+	void begin();
+	void run();
+
+	int headers();
+	std::string header(int i);              // get request header value by number
+	std::string headerName(int i);          // get request header name by number
+
+	void onHttp(std::string uri) ; // called by the httpsocket to notify server
+
+	void on(std::string path, int getpost, THandlerFunction func){callbacks[path]=func;};
+	void on(std::string path, int getpost, void (*func)(),THandlerFunction func2){callbacks[path]=func;};
+
+//	void onNotFound(void (*func)()){callbacks["notfound"]=func;};
+	void onNotFound(THandlerFunction f) {callbacks["notfound"]=f;};
+
+	bool hasHeader(std::string name);       // check if header exists
+	bool hasArg(std::string arg){return false;} //??
+	std::string header(std::string name);      // get request header value by name
+	std::map<std::string,std::string> getArguments();
+	std::string uri(){return lasturi;};
+
+	void setContentLength(int ){};//dummy function -> require webserver.cpp modification to modify contentLength
+	void sendContent( std::string header);
+	void sendHeader( std::string header, std::string value);
+	void send(int status, std::string type, std::string message);
+	void send(int status){};
+	size_t streamFile(std::string filename, std::string contentType,unsigned long start=0,unsigned long stop=0);	// send a file to current req
+
+
+	void handleClient();	// call mono yield function
+
+	bool uploadFile() {return false;};	// not implemented... yet ?
+};
+
+//#include "CurWebServerx86.cc"	// how the hell does we add a lib cc to the compilation in eclipse ? or build it as static lib
+#endif
+
+
+
+
+
+
