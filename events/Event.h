@@ -52,7 +52,7 @@ public:
 		for(auto e : values) {
 			if(s.length()==0) s="{";
 			else s+=",";
-			s+=GenString()+e.first.c_str()+":"+e.second.c_str();
+			s+=String()+e.first.c_str()+":"+e.second.c_str();
 		}
 		s+="}";
 		return s;

@@ -100,7 +100,7 @@ public:
 		f.close();
 		return sz;
 	};
-	unsigned long fileSize(String path){return fileSize(path.c_str());}
+	unsigned long getFileSize(String path){return fileSize(path.c_str());}
 
 	// code triggering C9000 warning
 
@@ -499,7 +499,22 @@ public:
 		f.close();
 		return;
 	};
-
+	size_t printFileBis(std::string path, unsigned int blocksize=128){
+		File f = CurFS.open(path.c_str(), "r");
+		if (!f) { println(std::string()+RF("printFile Error: could not open file ")+path.c_str()+"\n"); return 0; }
+		int sz=f.size();
+		size_t size=0;
+		unsigned char * buffer = new unsigned char[blocksize+1];
+		while(sz>0){
+			if(sz<blocksize) blocksize=sz;
+			size= f.readBytes((char *)buffer, blocksize);
+			buffer[blocksize]=0;
+			Serial.print(String((char *)buffer));
+			sz-=blocksize;
+		}
+		f.close();
+		return size;
+	};
 } SIMPLEFSESP32;
 //684 static mem, i guess its CurFS.begin()
 

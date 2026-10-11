@@ -349,8 +349,10 @@ public:
 		playVBeep();
 	}
 
+
+
 	void playSpecial(String beepname){
-		//        Serial.println(String()+"playSpecial beepname:"+beepname);
+		        Serial.println(String()+"playSpecial at "+millis()+" beepname:"+beepname);
 		if(beepname=="allla") {
 			beep(100,110,110);
 			beep(10,110,220);
@@ -370,11 +372,36 @@ public:
 			beep(500,1760 ,1760 );
 		}
 		if(beepname=="superhighbeep") {
-			beep(200,3520 ,3520 );
+			beep(200,7040 ,7040 );
 		}
 		if(beepname=="highbeep") {
-			beep(200,3520 ,3520 );
+			beep(1200,4500 ,4500 );
 		}
+		if(beepname=="crescendo") {
+			beep(600,440 ,440 );
+			beep(600,440 ,880 );
+			beep(600,880 ,880 );
+			beep(600,880 ,1760 );
+			beep(600,1760 ,1760 );
+			beep(600,1760 ,3520 );
+			beep(600,3520 ,3520 );
+			beep(600,3520 ,7040 );
+			beep(600,7040 ,7040 );
+		}
+		if(beepname=="crescendo2") {
+			beep(600,1000 ,1000 );
+			beep(600,2000 ,2000 );
+			beep(600,3000 ,3000 );
+			beep(600,4000 ,4000 );
+			beep(600,5000 ,5000 );
+			beep(600,6000 ,6000 );
+			beep(600,7000 ,7000 );
+			beep(600,8000 ,8000 );
+			beep(600,9000 ,9000 );
+		}
+
+
+
 		if(beepname=="funkybeep") {
 			beep(20,3520 ,3550 );
 			beep(20,3550 ,3520 );
@@ -428,9 +455,20 @@ public:
 			beep(300,600,600);
 		}
 		if(beepname=="reconnu2") {
+		  beep(50, 1760, 1568);   // A6
+		  beep(50, 1760, 1568);   // A6
+		  beep(100, 1040, 1040);  // G6
+		  beep(200, 1040, 2092);  // C7
+		  beep(200, 2092, 1040);  // C7
+		  beep(200, 1040, 2092);  // C7
+		  beep(100, 2092, 2092);  // C7
+		}
+		if(beepname=="reconnu3") {
 			beep(100, 1760, 1568);   // A6  (880 → 1760, 784 → 1568)
 			beep(100, 1760, 1568);   // A6  (880 → 1760, 784 → 1568)
 			beep(200, 1040, 1040);   // G6  (520 → 1040)
+			beep(400, 1040, 2092);   // C7  (1046 → 2092)
+			beep(400, 2092, 1040);   // C7  (1046 → 2092)
 			beep(400, 1040, 2092);   // C7  (1046 → 2092)
 			beep(200, 2092, 2092);   // C7  (1046 → 2092)
 		}
@@ -440,7 +478,6 @@ public:
 			beep(200, 1040, 1040);   // G6  (520 → 1040)
 			beep(400, 1040, 2092);   // C7  (1046 → 2092)
 			beep(200, 2092, 2092);   // C7  (1046 → 2092)
-
 			/*  	beep(100, 880, 784);   // A5  (was A4: 440 → 880, 392 → 784)
         	beep(100, 520, 520);   // G5  (was G4: 260 → 520)
         	beep(200,  1046, 1046); // C6  (was C4: 523 → 1046)

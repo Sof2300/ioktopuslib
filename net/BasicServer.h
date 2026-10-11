@@ -129,8 +129,9 @@ public:
 
 		StringMapEvent nmap;
 		auto args=server.getArguments();
-		for(auto k : args) {nmap.insertValue(k.first.c_str(),k.second.c_str());Serial.println(String()+"BasicServer::handleRootPath argument :"+k.first.c_str()+" = "+k.second.c_str());}
-
+		String arguments;
+		for(auto k : args) {arguments+=String()+k.first.c_str()+","+k.second.c_str()+"\n";nmap.insertValue(k.first.c_str(),k.second.c_str());Serial.println(String()+"BasicServer::handleRootPath argument :"+k.first.c_str()+" = "+k.second.c_str());}
+		if(args.size()>0) nmap.insertValue("arguments:",arguments.c_str());
 #if USEMDNS
 		if(nmap.exists("mdnsname")) {server.setMdnsName(nmap.values["mdnsname"].c_str());}
 #endif
@@ -139,6 +140,10 @@ public:
 		if(b && nmap.exists("response")) {
 			if(nmap.exists("type")) server.send(200, nmap.values["type"], nmap.values["response"]);
 			else server.send(200, "application/json", nmap.values["response"]);
+			return true;
+		}
+		if(b && !nmap.exists("response")) {
+			server.send(200, "text/html", "OK");
 			return true;
 		}
 		//	Serial.println(String()+"sending file :"+path);

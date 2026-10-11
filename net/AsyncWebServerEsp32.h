@@ -106,7 +106,8 @@ public:
 			this->currentRequest=request;
 			f();
 			this->currentRequest=0;
-			Serial.println(String()+"AsyncWebServerEsp32::onnotfound duration:"+(millis()-ts)+"ms");		//	Serial.println(String()+"AsyncWebServerEsp32::onnotfound finished processing request "+request->url()+" millis:"+millis());
+//			Serial.println(String()+"AsyncWebServerEsp32::onnotfound duration:"+(millis()-ts)+"ms");		//	Serial.println(String()+"AsyncWebServerEsp32::onnotfound finished processing request "+request->url()+" millis:"+millis());
+			Serial.println(String()+"[AsyncWebServerEsp32] request processed in: "+(millis()-ts)+"ms");		//	Serial.println(String()+"AsyncWebServerEsp32::onnotfound finished processing request "+request->url()+" millis:"+millis());
 			this->busy=false;
 		});
 	};
